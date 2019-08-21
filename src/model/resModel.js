@@ -11,7 +11,7 @@ class BaseModel {
         if(message){
             this.message = message
         }
-    }
+    }   
 }
 
 class SuccessModel extends BaseModel{
