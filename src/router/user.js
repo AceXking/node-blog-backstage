@@ -12,7 +12,10 @@ const handleUserRouter = (req, res) => {
         return result.then(data => {
             if (data.username) {
                 //操作 cookie
-                res.setHeader('Set-Cookie', `username=${data.username};path=/; httpOnly`)
+                // res.setHeader('Set-Cookie', `username=${data.username};path=/;httpOnly;expires=${getCookieExpires()};`)
+                req.session.username = data.username
+                req.session.realname = data.realname
+                console.log('req.session is ', req.session)
                 return new SuccessModel()
             }
             return new ErrorModel('登陆失败')
@@ -24,10 +27,11 @@ const handleUserRouter = (req, res) => {
     }
     // 登陆验证的测试
     if (method ==='GET' && req.path === '/api/user/login-test') {
-        if (req.cookie.username) {
+        console.log(req.session)
+        if (req.session.username) {
             return Promise.resolve(
                 new SuccessModel({
-                    username: req.cookie.username
+                    session: req.session
                 })
             ) 
         }
