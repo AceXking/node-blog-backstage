@@ -2,6 +2,7 @@ const {
     login
 } = require('../controller/user')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
+const { set }  = require('../db/redis')
 const handleUserRouter = (req, res) => {
     const method = req.method
     //登陆
@@ -13,8 +14,11 @@ const handleUserRouter = (req, res) => {
             if (data.username) {
                 //操作 cookie
                 // res.setHeader('Set-Cookie', `username=${data.username};path=/;httpOnly;expires=${getCookieExpires()};`)
+                // 设置 session
                 req.session.username = data.username
                 req.session.realname = data.realname
+                // 同步到 redis
+                set(req.sessionId, req.session)
                 console.log('req.session is ', req.session)
                 return new SuccessModel()
             }
