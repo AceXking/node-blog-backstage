@@ -78,7 +78,7 @@ const serverHandle = (req, res) => {
     if (!userId) {
         needSetCookie = true
         userId = `${Date.now()}_${Math.random()}`
-        // 初始化 session
+        // 初始化 redis 中 session 值
         set(userId, {})
         
     } 
