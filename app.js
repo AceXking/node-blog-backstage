@@ -1,5 +1,6 @@
 const querystring = require('querystring')
 const { get, set } = require('./src/db/redis')
+const { access } = require('./src/utils/log')
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
 //session 数据
@@ -39,6 +40,8 @@ const getPostData = (req) => {
     return promise
 }
 const serverHandle = (req, res) => {
+    // 记录 access log
+    access(`${req.method} -- ${req.url} -- ${req.headers['user-agent']} -- ${Date.now()}`)
     //获取path
     const url = req.url
     req.path = url.split('?')[0]
