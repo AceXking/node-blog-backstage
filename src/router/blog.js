@@ -15,8 +15,8 @@ const loginCheck = (req) => {
 }
 const handleBlogRouter = (req, res) => {
     const method = req.method
-    const id = req.query.id || ''
-
+    // const id = req.query.id || ''
+    const id = req.body.id || ''
     //获取博客列表
     if (method === 'GET' && req.path === '/api/blog/list') {
         const author = req.query.author || ''
@@ -81,7 +81,7 @@ const handleBlogRouter = (req, res) => {
         const result = delBlog(id, author)
         return result.then(val => {
             if (val) {
-                return new SuccessModel()
+                return new SuccessModel('删除成功')
             } else {
                 return new ErrorModel('删除失败')
             }
