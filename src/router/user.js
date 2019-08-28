@@ -19,7 +19,7 @@ const handleUserRouter = (req, res) => {
                 req.session.realname = data.realname
                 // 同步到 redis
                 set(req.sessionId, req.session)
-                console.log('req.session is ', req.session)
+                // console.log('req.session is ', req.session)
                 return new SuccessModel()
             }
             return new ErrorModel('登陆失败')
